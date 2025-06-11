@@ -1,0 +1,140 @@
+public class CarInfo {
+    private String carId;
+    private String carName;
+    private String carType;
+    private String city;
+
+    public CarInfo(String carId, String carName, String carType, String city) {
+        this.carId = carId;
+        this.carName = carName;
+        this.carType = carType;
+        this.city = city;
+    }
+
+    public String getCarId() {
+        return carId;
+    }
+
+    public void setCarId(String carId) {
+        this.carId = carId;
+    }
+
+    public String getCarName() {
+        return carName;
+    }
+
+    public void setCarName(String carName) {
+        this.carName = carName;
+    }
+
+    public String getCarType() {
+        return carType;
+    }
+
+    public void setCarType(String carType) {
+        this.carType = carType;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String checkAvailability() {
+        String name = this.carName.toLowerCase();
+        String type = this.carType.toLowerCase();
+        String location = this.city.toLowerCase();
+
+        if (!(name.equals("nissan") || name.equals("ford"))) {
+            return "Invalid Details";
+        }
+
+        if (!(type.equals("sedan") || type.equals("suv") || type.equals("muv"))) {
+            return "Invalid Details";
+        }
+
+        if (!(location.equals("new york") || location.equals("denver") || location.equals("los angels"))) {
+            return "Invalid Details";
+        }
+
+        String availableCar = "";
+        double price = 0.0;
+
+        if (name.equals("nissan")) {
+            if (type.equals("sedan")) {
+                return "Not Available";
+            } else if (type.equals("suv")) {
+                availableCar = "Magnite";
+                price = 10800.0;
+            } else if (type.equals("muv")) {
+                availableCar = "Terrano";
+                price = 14400.0;
+            }
+        } else if (name.equals("ford")) {
+            if (type.equals("sedan")) {
+                availableCar = "Figo";
+                price = 4802.0;
+            } else if (type.equals("suv")) {
+                availableCar = "Eco Sport";
+                price = 9605.0;
+            } else if (type.equals("muv")) {
+                availableCar = "Endeavour";
+                price = 21600.0;
+            }
+        }
+
+        return "Available car and price is: " + availableCar + " and $" + price;
+    }
+}
+
+
+
+import java.util.Scanner;
+
+public class UserInterface {
+    public static CarInfo extractDetails(String carDetails) {
+        String[] parts = carDetails.split(":");
+        if (parts.length != 4) return null;
+
+        String carId = parts[0].trim();
+        String carName = parts[1].trim();
+        String carType = parts[2].trim();
+        String city = parts[3].trim();
+
+        return new CarInfo(carId, carName, carType, city);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the Car Details");
+        String input = scanner.nextLine();
+
+        CarInfo car = extractDetails(input);
+        if (car == null) {
+            System.out.println("Invalid Details");
+            return;
+        }
+
+        System.out.println("Car Id: " + car.getCarId());
+        System.out.println("Car Name: " + car.getCarName());
+        System.out.println("Car Type: " + car.getCarType());
+        System.out.println("City: " + car.getCity());
+
+        String result = car.checkAvailability();
+        System.out.println(result);
+    }
+}
+
+Sample output Example:-
+Input:-
+Enter the Car Details
+V002: Ford:MUV: Denver
+Output:-
+Car Id: V002
+Car Name: Ford
+Car Type: MUV
+City: Denver
+Available car and price is: Endeavour and $21600.0
